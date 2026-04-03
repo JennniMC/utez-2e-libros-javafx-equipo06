@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.catalogodelibros.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.catalogodelibros.HelloController">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <TableView fx:id="tablaLibros" prefHeight="200">
+        <columns>
+            <TableColumn fx:id="colId" text="ID"/>
+            <TableColumn fx:id="colTitulo" text="Título"/>
+            <TableColumn fx:id="colAutor" text="Autor"/>
+            <TableColumn fx:id="colYear" text="Año"/>
+            <TableColumn fx:id="colGenero" text="Género"/>
+            <TableColumn fx:id="colDisponible" text="Disponible"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10">
+        <TextField fx:id="txtId" promptText="ID"/>
+        <TextField fx:id="txtTitulo" promptText="Título"/>
+        <TextField fx:id="txtAutor" promptText="Autor"/>
+        <TextField fx:id="txtYear" promptText="Año"/>
+        <TextField fx:id="txtGenero" promptText="Género"/>
+    </HBox>
+
+    <CheckBox fx:id="chkDisponible" text="Disponible"/>
+
+    <HBox spacing="10">
+        <Button text="Agregar" onAction="#agregarLibro"/>
+        <Button text="Eliminar" onAction="#eliminarLibro"/>
+        <Button text="Recargar" onAction="#recargarDatos"/>
+    </HBox>
+
 </VBox>

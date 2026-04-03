@@ -17,10 +17,17 @@ public class LibroService {
     }
 
     public void agregarLibro(Libro libro) {
+
+        for (Libro l : listLibros) {
+            if (l.getId().equals(libro.getId())) {
+                System.out.println("Libro duplicado");
+                return;
+            }
+        }
+
         listLibros.add(libro);
         guardarEnArchivo();
     }
-
     public List<Libro> consultarLibros() {
         return listLibros;
     }
@@ -42,13 +49,16 @@ public class LibroService {
 
     public void guardarEnArchivo() {
         try {
-            FileWriter writer = new FileWriter("data/libro.csv");
-
+            FileWriter writer = new FileWriter("libros.csv");
             for (Libro libro : listLibros) {
                 writer.write(libro.toString() + "\n");
             }
 
+            writer.flush();
             writer.close();
+
+            System.out.println("Archivo guardado correctamente");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,11 +68,16 @@ public class LibroService {
         listLibros.clear();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("data/libro.csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("libros.csv"));
             String linea;
 
             while ((linea = reader.readLine()) != null) {
+
+                if (linea.trim().isEmpty()) continue; // 🔥 evita líneas vacías
+
                 String[] datos = linea.split(",");
+
+                if (datos.length < 6) continue; // 🔥 evita líneas incompletas
 
                 Libro libro = new Libro(
                         datos[0],
@@ -77,8 +92,9 @@ public class LibroService {
             }
 
             reader.close();
+
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Archivo no existe o está vacío");
         }
     }
 }
