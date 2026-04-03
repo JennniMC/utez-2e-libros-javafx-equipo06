@@ -5,6 +5,7 @@ public class Libro {
     private String titulo;
     private String autor;
     private int year;
+    private String genero;
     private boolean disponible;
 
     public Libro(){
@@ -12,14 +13,15 @@ public class Libro {
     }
 
 
-    public Libro(String id, String titulo, String autor, int year, boolean disponible){
+
+
+    public Libro(String id, String titulo, String autor, int year, String genero, boolean disponible){
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.year = year;
+        this.genero = genero;
         this.disponible = disponible;
-
-
     }
     public String getId() {
         return id;
@@ -55,13 +57,20 @@ public class Libro {
         return disponible;
     }
 
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
 
     @Override
     public String toString(){
-        return id + " , "+ titulo + " , " + autor + " , " + year + " , " + disponible;
+        return id + "," + titulo + "," + autor + "," + year + "," + genero + "," + disponible;
     }
-
 }
