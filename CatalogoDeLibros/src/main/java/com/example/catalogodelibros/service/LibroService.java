@@ -16,40 +16,52 @@ public class LibroService {
         cargarDesdeArchivo();
     }
 
-    public void agregarLibro(Libro libro) {
+    public String agregarLibro(Libro libro) {
 
         for (Libro l : listLibros) {
             if (l.getId().equals(libro.getId())) {
-                System.out.println("Libro duplicado");
-                return;
+                return "Libro duplicado";
             }
         }
 
         listLibros.add(libro);
         guardarEnArchivo();
+        return "Libro agregado correctamente";
     }
     public List<Libro> consultarLibros() {
         return listLibros;
     }
 
-    public void eliminarLibro(String id) {
-        listLibros.removeIf(libro -> libro.getId().equals(id));
-        guardarEnArchivo();
+    public String eliminarLibro(String id) {
+
+        boolean eliminado = listLibros.removeIf(libro -> libro.getId().equals(id));
+
+        if (eliminado) {
+            guardarEnArchivo();
+            return "Libro eliminado correctamente";
+        } else {
+            return "No se encontró el libro";
+        }
     }
 
-    public void actualizarLibro(Libro libroActualizado) {
+    public String actualizarLibro(Libro libroActualizado) {
+
         for (int i = 0; i < listLibros.size(); i++) {
             if (listLibros.get(i).getId().equals(libroActualizado.getId())) {
+
                 listLibros.set(i, libroActualizado);
-                break;
+                guardarEnArchivo();
+                return "Libro modificado con exito";
             }
         }
-        guardarEnArchivo();
+
+        return "No se encontró el libro";
     }
 
-    public void guardarEnArchivo() {
+    public String guardarEnArchivo() {
         try {
             FileWriter writer = new FileWriter("libros.csv");
+
             for (Libro libro : listLibros) {
                 writer.write(libro.toString() + "\n");
             }
@@ -57,14 +69,14 @@ public class LibroService {
             writer.flush();
             writer.close();
 
-            System.out.println("Archivo guardado correctamente");
+            return "Archivo guardado con exito";
 
         } catch (IOException e) {
-            e.printStackTrace();
+            return "Error al guardar archivo";
         }
     }
 
-    public void cargarDesdeArchivo() {
+    public String cargarDesdeArchivo() {
         listLibros.clear();
 
         try {
@@ -73,11 +85,11 @@ public class LibroService {
 
             while ((linea = reader.readLine()) != null) {
 
-                if (linea.trim().isEmpty()) continue; // 🔥 evita líneas vacías
+                if (linea.trim().isEmpty()) continue;
 
                 String[] datos = linea.split(",");
 
-                if (datos.length < 6) continue; // 🔥 evita líneas incompletas
+                if (datos.length < 6) continue;
 
                 Libro libro = new Libro(
                         datos[0],
@@ -93,8 +105,11 @@ public class LibroService {
 
             reader.close();
 
+            return "Datos cargados con exito";
+
+
         } catch (IOException e) {
-            System.out.println("Archivo no existe o está vacío");
+            return "El Archivo NO existe";
         }
     }
 }

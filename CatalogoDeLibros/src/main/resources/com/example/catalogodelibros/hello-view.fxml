@@ -22,6 +22,7 @@
         <TextField fx:id="txtAutor" promptText="Autor"/>
         <TextField fx:id="txtYear" promptText="Año"/>
         <TextField fx:id="txtGenero" promptText="Género"/>
+        <Label fx:id="lblMensaje" text="" />
     </HBox>
 
     <CheckBox fx:id="chkDisponible" text="Disponible"/>
@@ -30,6 +31,7 @@
         <Button text="Agregar" onAction="#agregarLibro"/>
         <Button text="Eliminar" onAction="#eliminarLibro"/>
         <Button text="Recargar" onAction="#recargarDatos"/>
+        <Button text="Modificar" onAction="#modificarBook"/>
     </HBox>
 
 </VBox>
