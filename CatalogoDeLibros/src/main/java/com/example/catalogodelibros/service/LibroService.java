@@ -59,28 +59,42 @@ public class LibroService {
     }
 
     public String guardarEnArchivo() {
-        try {
-            FileWriter writer = new FileWriter("libros.csv");
 
-            for (Libro libro : listLibros) {
-                writer.write(libro.toString() + "\n");
+            try {
+
+                String ruta = System.getProperty("user.dir") + "/data/libros.csv";
+
+
+                java.io.File carpeta = new java.io.File(System.getProperty("user.dir") + "/data");
+                if (!carpeta.exists()) {
+                    carpeta.mkdirs();
+                }
+
+                FileWriter writer = new FileWriter(ruta);
+
+                for (Libro libro : listLibros) {
+                    writer.write(libro.toString() + "\n");
+                }
+
+                writer.close();
+
+                return "Archivo guardado con exito";
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Error al guardar archivo";
             }
 
-            writer.flush();
-            writer.close();
-
-            return "Archivo guardado con exito";
-
-        } catch (IOException e) {
-            return "Error al guardar archivo";
-        }
     }
 
     public String cargarDesdeArchivo() {
         listLibros.clear();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("libros.csv"));
+
+            String ruta = System.getProperty("user.dir") + "/data/libros.csv";
+
+            BufferedReader reader = new BufferedReader(new FileReader(ruta));
             String linea;
 
             while ((linea = reader.readLine()) != null) {
@@ -107,9 +121,25 @@ public class LibroService {
 
             return "Datos cargados con exito";
 
-
         } catch (IOException e) {
-            return "El Archivo NO existe";
+            return "Archivo no encontrado, se creará uno nuevo";
+        }
+    }
+
+    public String exportarReporte() {
+        try {
+            FileWriter writer = new FileWriter("reporte_catalogo.csv");
+
+            writer.write("ID,Titulo,Autor,Año,Genero,Disponible\n");
+
+            for (Libro libro : listLibros) {
+                writer.write(libro.toString() + "\n");
+            }
+
+            writer.close();
+            return "Reporte exportado";
+        } catch (IOException e) {
+            return "Error al exportar";
         }
     }
 }
