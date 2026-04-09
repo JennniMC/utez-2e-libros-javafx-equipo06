@@ -4,6 +4,7 @@ Titulo de la Integradora:
 CATALOGO DEL LIBROS
 
 
+
 DESCRIPCION DEL PROYECTO:
 este programa fue creado en java fx su funcion es gestionar un catalogo de libros de una biblioteca, el sistema tiene operaciones CRUD(crear,leer,actializar,eliminar)
 La idea principal es poder llevar un control básico de los libros, como agregarlos, verlos en una tabla, editarlos o eliminarlos cuando sea necesario la idea principal es poder llevar un control básico de los libros

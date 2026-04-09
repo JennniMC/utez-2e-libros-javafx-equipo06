@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class HelloController {
+    //Conecta la interfaz con la lógica
+    //usamos: java.awt.Desktop para abiri el archivo
 
 
     @FXML private TableView<Libro> tablaLibros;
@@ -31,10 +33,10 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        tablaLibros.setRowFactory(tv -> {
-            TableRow<Libro> row = new TableRow<>();
+        tablaLibros.setRowFactory(tv -> {//personalizamos como se comportan las filas
+            TableRow<Libro> row = new TableRow<>();//se cra una fila que contiene el objeto
 
-            row.setOnMouseClicked(event -> {
+            row.setOnMouseClicked(event -> {//!row.isEmpty() → que sí haya un librogetClickCount() == 2 → que sea doble clic
                 if (!row.isEmpty() && event.getClickCount() == 2) {
 
                     Libro libro = row.getItem();
@@ -44,7 +46,7 @@ public class HelloController {
                     alert.setHeaderText(libro.getTitulo());
 
                     alert.setContentText(
-                            "ID: " + libro.getId() + "\n" +
+                            "ID: " + libro.getId() + "\n" +//Armamos el texto que se mostrara
                                     "Autor: " + libro.getAutor() + "\n" +
                                     "Año: " + libro.getYear() + "\n" +
                                     "Género: " + libro.getGenero() + "\n" +
@@ -270,9 +272,9 @@ public class HelloController {
 
     private void abrirArchivo() {
         try {
-            String ruta = System.getProperty("user.dir") + "/reporte_catalogo.csv";
+            String ruta = System.getProperty("user.dir") + "/reporte_catalogo.csv";//Obtenemos la carpeta donde se esta ejecutando el proyecto
 
-            java.awt.Desktop.getDesktop().open(new java.io.File(ruta));
+            java.awt.Desktop.getDesktop().open(new java.io.File(ruta));//Hace que el programa se abra con el archivo predeterminado(Excel)
 
         } catch (Exception e) {
             mostrarAlerta("Error", "No se pudo abrir el archivo", Alert.AlertType.ERROR);

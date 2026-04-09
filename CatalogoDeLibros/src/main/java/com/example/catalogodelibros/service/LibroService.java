@@ -1,4 +1,8 @@
 package com.example.catalogodelibros.service;
+//Es la clase que maneja toda la lógica:
+//CRUD
+//archivos
+//validaciones básicas
 
 import com.example.catalogodelibros.model.Libro;
 import java.util.ArrayList;
@@ -10,15 +14,17 @@ import java.io.FileReader;
 
 public class LibroService {
 
-    private List<Libro> listLibros = new ArrayList<>();
+    private List<Libro> listLibros = new ArrayList<>();//Guarda los datos temporalmente
 
     public LibroService() {
         cargarDesdeArchivo();
-    }
+    }// Al iniciar el sistema, carga los datos del archivo
 
     public String agregarLibro(Libro libro) {
 
+          //for each
         for (Libro l : listLibros) {
+            //Si el ID coincide manda el mensaje
             if (l.getId().equals(libro.getId())) {
                 return "Libro duplicado";
             }
@@ -30,9 +36,9 @@ public class LibroService {
     }
     public List<Libro> consultarLibros() {
         return listLibros;
-    }
+    }//Devuelve todos los libros
 
-    public String eliminarLibro(String id) {
+    public String eliminarLibro(String id) { // Elimina por ID y Guarda cambios
 
         boolean eliminado = listLibros.removeIf(libro -> libro.getId().equals(id));
 
@@ -44,7 +50,7 @@ public class LibroService {
         }
     }
 
-    public String actualizarLibro(Libro libroActualizado) {
+    public String actualizarLibro(Libro libroActualizado) {//Busca por ID y Reemplaza el libro
 
         for (int i = 0; i < listLibros.size(); i++) {
             if (listLibros.get(i).getId().equals(libroActualizado.getId())) {
@@ -62,15 +68,15 @@ public class LibroService {
 
             try {
 
-                String ruta = System.getProperty("user.dir") + "/data/libros.csv";
+                String ruta = System.getProperty("user.dir") + "/data/libros.csv"; //Guarda en carpeta data
 
 
                 java.io.File carpeta = new java.io.File(System.getProperty("user.dir") + "/data");
                 if (!carpeta.exists()) {
-                    carpeta.mkdirs();
+                    carpeta.mkdirs();//Crea la carpeta si no existe
                 }
 
-                FileWriter writer = new FileWriter(ruta);
+                FileWriter writer = new FileWriter(ruta); //Escribe en archivo
 
                 for (Libro libro : listLibros) {
                     writer.write(libro.toString() + "\n");
@@ -94,14 +100,14 @@ public class LibroService {
 
             String ruta = System.getProperty("user.dir") + "/data/libros.csv";
 
-            BufferedReader reader = new BufferedReader(new FileReader(ruta));
+            BufferedReader reader = new BufferedReader(new FileReader(ruta)); // Lee línea por línea
             String linea;
 
             while ((linea = reader.readLine()) != null) {
 
                 if (linea.trim().isEmpty()) continue;
 
-                String[] datos = linea.split(",");
+                String[] datos = linea.split(","); //Convierte CSV en datos
 
                 if (datos.length < 6) continue;
 

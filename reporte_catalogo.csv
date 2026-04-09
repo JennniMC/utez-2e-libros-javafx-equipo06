@@ -1,4 +1,6 @@
 ID,Titulo,Autor,Año,Genero,Disponible
 1,Harry Potter,Rowling,2000,Fantasía,true
 2,Patria,Luisa Montaner,1925,Historia,false
-5,la teoria de kim,dacko,1895,Novela,true
+3,El principito,Yin,2000,Novela,false
+4,Los seres,Jimena,1987,Fantasía,false
+5,La mente,Kyo,2007,Ciencia,true

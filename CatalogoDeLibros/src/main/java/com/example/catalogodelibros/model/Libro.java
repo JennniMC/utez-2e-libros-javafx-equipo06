@@ -1,5 +1,6 @@
 package com.example.catalogodelibros.model;
-
+//Esta clase define la estructura de un libro
+//Definimos atrubutos(Guardan la información del libro)
 public class Libro {
     private String id;
     private String titulo;
@@ -8,13 +9,15 @@ public class Libro {
     private String genero;
     private boolean disponible;
 
+
+//Constructor vacio(e usa cuando se necesita crear un objeto sin datos iniciales)
     public Libro(){
 
     }
 
 
 
-
+//Permite crear un libro con todos sus datos
     public Libro(String id, String titulo, String autor, int year, String genero, boolean disponible){
         this.id = id;
         this.titulo = titulo;
@@ -23,6 +26,7 @@ public class Libro {
         this.genero = genero;
         this.disponible = disponible;
     }
+    //Los getters y Setters permiten acceder y modificar los atributos
     public String getId() {
         return id;
     }
@@ -68,6 +72,9 @@ public class Libro {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
+
+    //Convierte el objeto a texto (CSV)
+    // Se usa para guardar en archivo
 
     @Override
     public String toString(){
