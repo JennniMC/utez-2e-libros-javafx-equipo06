@@ -68,6 +68,7 @@ public class HelloController {
         colGenero.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(data.getValue().getGenero())
         );
+
         colDisponible.setCellValueFactory(data -> new javafx.beans.property.SimpleObjectProperty<>(data.getValue().isDisponible()));
 
         listaObservable = FXCollections.observableArrayList(libroService.consultarLibros());
@@ -173,41 +174,80 @@ public class HelloController {
                 listaObservable.setAll(libroService.consultarLibros());
 
                 mostrarAlerta("Éxito", "Libro eliminado correctamente", Alert.AlertType.INFORMATION);
+                tablaLibros.getSelectionModel().clearSelection();
             }
         });
     }
-
     @FXML
     public void recargarDatos() {
-        String mensaje = libroService.cargarDesdeArchivo();
+
+        libroService.cargarDesdeArchivo();
         listaObservable.setAll(libroService.consultarLibros());
-        mostrarAlerta("Resultado", mensaje, Alert.AlertType.INFORMATION);
+
+        // limpiar selección de la tabla
+        tablaLibros.getSelectionModel().clearSelection();
+
+        // limpiar campos manualmente
+        txtId.clear();
+        txtTitulo.clear();
+        txtAutor.clear();
+        txtYear.clear();
+        cmbGenero.setValue(null);
+        chkDisponible.setSelected(false);
+
+        mostrarAlerta("Actualizado", "Datos recargados correctamente", Alert.AlertType.INFORMATION);
     }
     @FXML
     public void modificarBook() {
+
+        Libro seleccionado = tablaLibros.getSelectionModel().getSelectedItem();
+
+
+        if (seleccionado == null) {
+            mostrarAlerta("Error", "Selecciona un libro para modificar", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // VALIDACIONES DE CAMPOS
+        if (txtId.getText().isEmpty() || txtTitulo.getText().isEmpty() ||
+                txtAutor.getText().isEmpty() || txtYear.getText().isEmpty() ||
+                cmbGenero.getValue() == null) {
+
+            mostrarAlerta("Error", "Todos los campos son obligatorios", Alert.AlertType.ERROR);
+            return;
+        }
+
+        int year;
+        try {
+            year = Integer.parseInt(txtYear.getText());
+        } catch (Exception e) {
+            mostrarAlerta("Error", "El año debe ser numérico", Alert.AlertType.ERROR);
+            return;
+        }
 
         Libro libroActualizado = new Libro(
                 txtId.getText(),
                 txtTitulo.getText(),
                 txtAutor.getText(),
-                Integer.parseInt(txtYear.getText()),
+                year,
                 cmbGenero.getValue(),
                 chkDisponible.isSelected()
         );
 
         libroService.actualizarLibro(libroActualizado);
-
         listaObservable.setAll(libroService.consultarLibros());
 
-        // limpiar campos
+        mostrarAlerta("Éxito", "Libro modificado correctamente", Alert.AlertType.INFORMATION);
         txtId.clear();
         txtTitulo.clear();
         txtAutor.clear();
         txtYear.clear();
+        cmbGenero.setValue(null);
         chkDisponible.setSelected(false);
-        mostrarAlerta("Éxito", "Libro modificado correctamente", Alert.AlertType.INFORMATION);
-    }
 
+
+        tablaLibros.getSelectionModel().clearSelection();
+    }
     @FXML
     public void exportarReporte() {
 
